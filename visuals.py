@@ -25,40 +25,35 @@ train, validate, test = wrangle_zillow.split_zillow_data(df)
 #over_four_bath = train[train.bathroomcnt_encoded==3]
 #over_four_bath.logerror_encoded.value_counts()
 
-def bathroom_pieplot():
-    fig, (ax1, ax2, ax3) = plt.subplots(nrows=1, ncols=3)
-
-    data1 = [53, 47]
-    labels1 = ['Inside IQR', 'Outside IQR']
-    colors = sns.color_palette('coolwarm')[0:5]
-    ax1.pie(data1, labels = labels1, colors = colors, autopct='%.0f%%')
-    ax1.set_title('< 2 bath', fontdict = {'fontsize' : 14})
-
-
-    data2 = [54, 46]
-    labels2 = ['Inside IQR', 'Outside IQR']
-    ax2.pie(data2, labels = labels2, colors = colors, autopct='%.0f%%')
-    ax2.set_title('2,3,4 bath', fontdict = {'fontsize' : 14})
-
-
-    data3 = [59, 41]
-    labels3 = ['Inside IQR', 'Outside IQR']
-    ax3.pie(data3, labels = labels3, colors = colors, autopct='%.0f%%')
-    ax3.set_title("> 4 bath", fontdict = {'fontsize' : 14})
-
-    plt.tight_layout()
-    sns.set(rc = {'figure.figsize':(12,8)})
-    plt.show()
-
-def bathroomcnt_relplot():
-    x = train.yearbuilt
-    y = train.taxamount
+def taxvalue_taxamount():
+    x = train.taxvalue_taxamount
+    y = train.logerror
     # Set size of figure
     plt.figure(figsize = (13,7))
     # Create scatterplot
-    ax = sns.relplot(data=train, x= x, y= y, hue="logerror_encoded", col="bathroomcnt_encoded", col_wrap=3)
+    ax = sns.scatterplot(data=train, x= x, y= y)
     # fit labels and legend
-    plt.suptitle('Bathroom Count vs Log Error', fontsize = 20)
+    plt.title('Relationship Between Log Error and Tax Value/Tax Amount', fontsize = 20)
+    plt.xlabel('Taxvalue/Taxamount', fontsize = 16)
+    plt.xticks(fontsize = 14)
+    plt.yticks(fontsize = 14)
+    plt.ylabel('Log Error', fontsize = 16)
+
+
+plt.tight_layout() 
+plt.show()
+
+def structuretax_taxamount():
+    x = train.structuretax_taxamount
+    y = train.logerror
+    # Set size of figure
+    plt.figure(figsize = (13,7))
+    # Create scatterplot
+    ax = sns.scatterplot(data=train, x= x, y= y)
+    # fit labels and legend
+    plt.title('Relationship Between Log Error and structuretax/taxamount', fontsize = 20)
+    plt.xlabel('Structuretax/Taxamount', fontsize = 16)
+    plt.xticks(fontsize = 14)
     plt.yticks(fontsize = 14)
     plt.ylabel('Log Error', fontsize = 16)
 
@@ -66,111 +61,64 @@ def bathroomcnt_relplot():
     plt.tight_layout() 
     plt.show()
 
-#code for square feet pie plots to get percentages 
-#a= train[train.finishedsquarefeet12_encoded==1]
-#a.logerror_encoded.value_counts(normalize=True)
 
-#b = train[train.finishedsquarefeet12_encoded==2]
-#b.logerror_encoded.value_counts(normalize=True)
-
-#c= train[train.finishedsquarefeet12_encoded==3]
-#c.logerror_encoded.value_counts(normalize=True)
-
-#d = train[train.finishedsquarefeet12_encoded==4]
-#d.logerror_encoded.value_counts(normalize=True)
-
-def SquareFeet_pieplot():
-    fig, (ax1, ax2, ax3, ax4) = plt.subplots(nrows=1, ncols=4)
-
-    data1 = [47, 53]
-    labels1 = ['Inside IQR', 'Outside IQR']
-    colors = sns.color_palette('coolwarm')[0:5]
-    ax1.pie(data1, labels = labels1, colors = colors, autopct='%.0f%%')
-    ax1.set_title('SqFt_code = 1', fontdict = {'fontsize' : 14})
-
-
-    data2 = [50, 50]
-    labels2 = ['Inside IQR', 'Outside IQR']
-    ax2.pie(data2, labels = labels2, colors = colors, autopct='%.0f%%')
-    ax2.set_title('SqFt_code = 2', fontdict = {'fontsize' : 14})
-
-
-    data3 = [51, 49]
-    labels3 = ['Inside IQR', 'Outside IQR']
-    ax3.pie(data3, labels = labels3, colors = colors, autopct='%.0f%%')
-    ax3.set_title("SqFt_code = 3", fontdict = {'fontsize' : 14})
-
-    data4 = [49, 51]
-    labels4 = ['Inside IQR', 'Outside IQR']
-    ax4.pie(data4, labels = labels4, colors = colors, autopct='%.0f%%')
-    ax4.set_title("SqFt_code = 4", fontdict = {'fontsize' : 14})
-
-
-    plt.tight_layout()
-    sns.set(rc = {'figure.figsize':(12,8)})
-    plt.show()
-
-
-def SquareFeet_relplot():
-    x = train.yearbuilt
-    y = train.taxamount
+def SquareFeet_StructureTax():
+    x = train.Sqft_structuretax
+    y = train.logerror
     # Set size of figure
     plt.figure(figsize = (13,7))
     # Create scatterplot
-    ax = sns.relplot(data=train, x= x, y= y, hue="logerror_encoded", col="finishedsquarefeet12_encoded", col_wrap=2)
+    ax = sns.scatterplot(data=train, x= x, y= y)
     # fit labels and legend
-    plt.suptitle('Finished Square Feet vs Log Error', fontsize = 20)
+    plt.title('Relationship Between Log Error and Sqft_structuretax', fontsize = 20)
+    plt.xlabel('Calculatedfinishedsquarefeet/Structuretax', fontsize = 16)
+    plt.xticks(fontsize = 14)
+    plt.yticks(fontsize = 14)
+    plt.ylabel('Log Error', fontsize = 16)
+    plt.tight_layout() 
+    plt.show()
+
+
+
+
+def Landtax_Taxamount():
+    x = train.Landtax_taxamount
+    y = train.logerror
+    # Set size of figure
+    plt.figure(figsize = (13,7))
+    # Create scatterplot
+    ax = sns.scatterplot(data=train, x= x, y= y)
+    # fit labels and legend
+    plt.title('Relationship Between Log Error and Landtax/Taxamount', fontsize = 20)
+    plt.xlabel('Landtax/Taxamount', fontsize = 16)
+    plt.xticks(fontsize = 14)
     plt.yticks(fontsize = 14)
     plt.ylabel('Log Error', fontsize = 16)
 
 
     plt.tight_layout() 
     plt.show()
-
-#code to get percent inside iqr for taxamount encoded 
-
-#e= train[train.taxamount_encoded==1]
-#e.logerror_encoded.value_counts(normalize=True)
-
-#f= train[train.taxamount_encoded==2]
-#f.logerror_encoded.value_counts(normalize=True)
-
-#g= train[train.taxamount_encoded==3]
-#g.logerror_encoded.value_counts(normalize=True)
-
-#h= train[train.taxamount_encoded==4]
-#h.logerror_encoded.value_counts(normalize=True)
-
-def taxamount_pieplot():
-    fig, (ax1, ax2, ax3, ax4) = plt.subplots(nrows=1, ncols=4)
-
-    data1 = [43, 57]
-    labels1 = ['Inside IQR', 'Outside IQR']
-    colors = sns.color_palette('coolwarm')[0:5]
-    ax1.pie(data1, labels = labels1, colors = colors, autopct='%.0f%%')
-    ax1.set_title('Tax_Code=1', fontdict = {'fontsize' : 14})
+   
 
 
-    data2 = [49, 51]
-    labels2 = ['Inside IQR', 'Outside IQR']
-    ax2.pie(data2, labels = labels2, colors = colors, autopct='%.0f%%')
-    ax2.set_title('Tax_Code=2', fontdict = {'fontsize' : 14})
+
+def Structuretax_Landtax():
+    x = train.Structuretax_landtax
+    y = train.logerror
+    # Set size of figure
+    plt.figure(figsize = (13,7))
+    # Create scatterplot
+    ax = sns.scatterplot(data=train, x= x, y= y)
+    # fit labels and legend
+    plt.title('Relationship Between Log Error and Structuretax/Landtax', fontsize = 20)
+    plt.xlabel('Structuretax/Landtax', fontsize = 16)
+    plt.xticks(fontsize = 14)
+    plt.yticks(fontsize = 14)
+    plt.ylabel('Log Error', fontsize = 16)
 
 
-    data3 = [53, 47]
-    labels3 = ['Inside IQR', 'Outside IQR']
-    ax3.pie(data3, labels = labels3, colors = colors, autopct='%.0f%%')
-    ax3.set_title("Tax_Code=3", fontdict = {'fontsize' : 14})
-
-    data4 = [49, 51]
-    labels4 = ['Inside IQR', 'Outside IQR']
-    ax4.pie(data4, labels = labels4, colors = colors, autopct='%.0f%%')
-    ax4.set_title("Tax_Code=4", fontdict = {'fontsize' : 14})
-
-
-    plt.tight_layout()
-    sns.set(rc = {'figure.figsize':(12,8)})
-    plt.show()
+plt.tight_layout() 
+plt.show()
 
 def taxamount_relplot():
     x = train.yearbuilt
